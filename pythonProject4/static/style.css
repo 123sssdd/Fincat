@@ -1,0 +1,519 @@
+/* 通用页面样式 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color:#E3F2FD;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 为整个页面添加一个容器，使用 flex 布局 */
+.page-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* 左右图片容器样式 */
+.side-image-container {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    width: calc((100% - 1000px) / 2); /* 计算左右容器的宽度 */
+}
+
+/* 左右图片样式 */
+.side-image {
+    width: 100%; /* 图片宽度占满容器宽度 */
+    height: auto;
+    margin:0px;
+    object-fit: cover; /* 图片不变形 */
+}
+
+.container {
+    position: relative;
+    width: 800px;
+    height: 1095px;
+    margin-left:0px;
+    margin-right:0px;
+    max-height: 1100px;
+    margin-bottom: 0px;
+    padding: 50px 140px 114px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/static/background-image.jpg') center center / cover no-repeat;
+    opacity: 0.5; /* 调整背景图片的不透明度，0.0~1.0 */
+    border-radius: 8px; /* 与容器的圆角保持一致 */
+    z-index: -1; /* 使伪元素位于容器的后面 */
+}
+
+
+/* 标题样式 */
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: #333333;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #5c5454;
+}
+
+/* 清空按钮样式 */
+.clear-button {
+position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #f44336; /* 按钮背景颜色 */
+    color: #fff; /* 按钮文字和图标颜色 */
+    border: none;
+    border-radius: 20px; /* 圆角效果 */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 按钮阴影 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 过渡效果 */
+    display: flex;
+    align-items: center;
+}
+
+.clear-button i {
+    margin-right: 6px; /* 图标和文字间距 */
+}
+
+.clear-button:hover {
+    background-color: #d32f2f; /* 悬停时的背景颜色 */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* 悬停时的阴影 */
+}
+
+
+.tip{
+  margin-bottom: 30px;
+  margin-top: 120px;
+}
+
+
+
+
+/* 预设问题按钮样式 */
+.tip .preset-question {
+    margin: 10px 30px 20px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    filter: saturate(0.8); /* 图片饱和度低一点 */
+    opacity: 0.8; /* 不透明度0.8 */
+    transition: transform 0.3s ease; /* 鼠标悬浮放大 */
+}
+
+.tip .preset-question:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.5); /* 鼠标悬浮放大 */
+}
+
+
+
+/* 输入框和按钮样式 */
+.input {
+    position: relative;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+
+
+input[type="text"] {
+    position: relative;
+    left:60px;
+    width: 80%;
+    min-width: 470px;
+    height: 90px;
+    padding: 10px;
+    font-size: 1.1em;
+    border: 1.2px solid #A8D5BA; /* 边框 */
+    border-radius: 30px;
+    margin-top:10px;
+    margin-bottom: 0px;
+   transition: transform 0.3s ease; /* 交互效果 */
+   filter: saturate(0.8); /* 图片饱和度低一点 */
+    opacity: 0.8; /* 不透明度0.8 */
+}
+
+
+/* 鼠标悬停时的效果 */
+input[type="text"]:hover {
+  transform: scale(1.07); /* 鼠标悬停时轻微放大 */
+}
+/* 确保在 <head> 部分引入 Font Awesome 图标库 */
+@import url('https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css');
+
+/* 搜索按钮样式 */
+.input #submit-button {
+    position: relative;
+    bottom: 73px;
+    left: 250px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px; /* 可根据需要调整宽度 */
+    height: 50px; /* 可根据需要调整高度 */
+    background-color: #F3F5F6; /* 背景颜色 */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #f25656;
+    font-size: 24px; /* 调整图标大小 */
+    margin-left: 10px; /* 与前一个元素保持间距 */
+
+}
+
+.input #submit-button .fa {
+    margin: 0 5px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.input #submit-button .fa-search {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.input #submit-button .fa-hand-o-right {
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.input #submit-button:hover .fa-search {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+.input #submit-button:hover .fa-hand-o-right {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.input #submit-button::before {
+    content: 'GO!';
+    position: absolute;
+    display: block;
+    font-size: 18px;
+    background-color: #ff7575;
+    padding: 5px 10px;
+    top: 50px;
+    right: -10px;
+    border-radius: 10px;
+    transition: .3s;
+    opacity: 0;
+    animation: box 1s infinite ease;
+}
+
+.input #submit-button:hover::before {
+    top: -30px;
+    opacity: 1;
+}
+
+@keyframes box {
+    0% {
+        transform: rotate(0deg);
+    }
+    33% {
+        transform: rotate(8deg);
+    }
+    66% {
+        transform: rotate(-8deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.input #upload-button {
+    position: relative;
+    top: 10px;
+    right: 150px;
+    padding: 10px 20px;
+    margin-left: 20px;
+    font-size: 1.1em;
+    background-color: #ffffff; /* 背景颜色 */
+    border: 1px solid #e0e0e0; /* 边框 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input #upload-button .fa {
+    font-size: 1.5em; /* 调整图标大小 */
+    color: #2fb469; /* 图标颜色 */
+}
+
+/* 答案框样式 */
+.answer-box {
+    position: relative; /* 添加此行 */
+    min-height:600px;
+    margin-top: 70px;
+    margin-bottom: 200px;
+    padding: 20px;
+    max-height: 700px; /* 根据需要调整 */
+    overflow-y: auto; /* 垂直滚动条 */
+    border: 2px solid #CCCCCC; /* 淡灰色边框 */
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 黑色阴影，增强立体感 */
+    transition: transform 0.3s ease; /* 交互效果 */
+}
+
+/* 鼠标悬停时的效果 */
+.answer-box:hover {
+  transform: scale(1.02); /* 鼠标悬停时轻微放大 */
+}
+
+/* 七彩小泡泡组件样式 */
+.bubble-component {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bubble-box {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    left: 500px;
+    top: -40px;
+    transform: translate(-50%, -50%);
+    transform: scale(0.8); /* 将 void 区域放大 1.5 倍 */
+    transform-origin: center; /* 保持缩放从中心开始 */
+}
+
+.bubble-ball {
+    animation: bubble-float 3.5s ease-in-out infinite;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    position: relative;
+    background: radial-gradient(circle at 77% 30%, white 5px, aqua 8%, darkblue 60%, aqua 100%);
+    box-shadow: inset 0 0 20px #fff, inset 10px 0 46px #eaf5fc, inset 88px 0px 60px #c2d8fe,
+                inset -20px -60px 100px #fde9ea, inset 0 50px 140px #fde9ea, 0 0 90px #fff;
+}
+
+.bubble-box:nth-child(2) {
+    z-index: -999;
+}
+
+.bubble-box:nth-child(2) .bubble-ball {
+    left: -80px;
+    top: 35px;
+    width: 100px;
+    height: 100px;
+    z-index: -999;
+    opacity: 0.5;
+}
+
+.bubble-box:nth-child(3) .bubble-ball {
+    left: 80px;
+    top: -80px;
+    width: 20px;
+    height: 20px;
+    opacity: 0.1;
+}
+
+.bubble-shadow {
+    background: #b490b27c;
+    width: 150px;
+    height: 40px;
+    top: 70%;
+    animation: bubble-expand 4s infinite;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.bubble-box:nth-child(2) .bubble-shadow {
+    width: 90px;
+    height: 20px;
+    top: 72.5%;
+    left: -75px;
+    opacity: 0.4;
+}
+
+/* 漂浮动画 */
+@keyframes bubble-float {
+    0% {
+        transform: translatey(0px) rotate(-10deg);
+    }
+
+    50% {
+        transform: translatey(-80px) rotate(10deg);
+    }
+
+    100% {
+        transform: translatey(0px) rotate(-10deg);
+    }
+}
+
+/* 阴影扩展动画 */
+@keyframes bubble-expand {
+    0%,
+    100% {
+        transform: scale(0.5);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+}
+
+
+
+.logo{
+    width: 100px;
+    height: auto;
+    margin-top: 20px;
+    filter: saturate(0.8); /* 图片饱和度低一点 */
+    border-radius: 50%; /* 设置圆形边框 */
+    opacity: 0.8; /* 不透明度0.8 */
+    transition: transform 0.3s ease; /* 鼠标悬浮放大 */
+}
+
+.logo:hover {
+    transform: scale(1.5); /* 鼠标悬浮放大 */
+}
+
+.cat{
+    position:absolute;
+    width: 200px;
+    height: auto;
+    border-radius: 6px;
+    margin-top: 60px;
+    left: 720px;
+    top: 75px;
+
+}
+
+/* 设置p居中显示*/
+.answer-box p {
+    max-width: 70%;
+    width:70%;
+    margin: 50px auto 30px;
+    padding: 20px;
+    line-height: 2.0;
+    font-size: 1.2em;
+    color: rgba(0, 100, 0, 0.8);
+     background-color: #EAF6EB; /* 淡灰色背景，形成与外层框的对比 */
+  border: 1px solid #BBDEFB; /* 浅灰色边框 */
+  border-radius: 10px; /* 圆角边框 */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* 内阴影，形成凹陷效果 */
+    white-space: pre-wrap;
+}
+
+/* 单条消息的容器 */
+.message {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+/* 用户消息，右对齐 */
+.user-message {
+    justify-content: flex-end;
+}
+
+.user-message .bubble {
+    background-color: #dcf8c6;
+    text-align: right;
+}
+
+/* 助手消息，左对齐 */
+.assistant-message {
+    justify-content: flex-start;
+}
+
+.assistant-message .bubble {
+    background-color: #f1f0f0;
+    text-align: left;
+}
+
+/* 消息气泡 */
+.bubble {
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    line-height: 1.5;
+    font-size: 1em;
+    color: #333;
+}
+
+/* 为气泡添加箭头 */
+.user-message .bubble::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    border: 5px solid transparent;
+    border-left-color: #dcf8c6;
+}
+
+.assistant-message .bubble::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    border: 5px solid transparent;
+    border-right-color: #f1f0f0;
+}
+
+.user-question {
+    max-width: 70%;
+    width: 70%;
+    margin: 50px auto 30px;
+    padding: 20px;
+    line-height: 2.0;
+    font-size: 1.2em;
+    color: rgba(0, 100, 0, 0.8);
+    background-color: #EAF6EB;
+    border: 1px solid #BBDEFB;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: pre-wrap;
+}
+
+.answer {
+    max-width: 70%;
+    width: 70%;
+    margin: 50px auto 30px;
+    padding: 20px;
+    line-height: 2.0;
+    font-size: 1.2em;
+    color: rgba(0, 100, 0, 0.8);
+    background-color: #EAF6EB;
+    border: 1px solid #BBDEFB;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: pre-wrap;
+}

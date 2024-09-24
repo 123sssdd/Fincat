@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>年报问答系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- 请确保在 <head> 部分引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+
+</head>
+<body>
+<div class="page-container">
+    <!-- 左侧图片容器 -->
+    <div class="side-image-container left-side">
+            <img src="{{ url_for('static', filename='left-image1.jpg') }}" alt="左侧图片1" class="side-image">
+            <img src="{{ url_for('static', filename='left-image3.jpg') }}" alt="左侧图片3" class="side-image">
+            <img src="{{ url_for('static', filename='left-image2.jpg') }}" alt="左侧图片2" class="side-image">
+    </div>
+    <div class="container">
+        <!-- 大标题 -->
+        <h1>年报问答系统</h1>
+        <p class="subtitle">输入你的问题，系统将基于年报数据提供答案</p>
+
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="cat">
+
+
+        <!-- 答案框 -->
+        <div class="answer-box">
+            <button id="clear-button" class="clear-button"><i class="fas fa-trash-alt"></i>清空</button>
+             <!-- 七彩小泡泡组件 -->
+            <div class="bubble-component">
+                <div class="bubble-box">
+                    <div class="bubble-ball"></div>
+                    <div class="bubble-shadow"></div>
+                </div>
+
+                <div class="bubble-box">
+                   <div class="bubble-ball"></div>
+                    <div class="bubble-shadow"></div>
+                </div>
+
+                <div class="bubble-box">
+                   <div class="bubble-ball"></div>
+                </div>
+            </div>
+            <img src="{{ url_for('static', filename='cat.jpg') }}" alt="绿豆猫猫" class="logo">
+            <div id="qa-container">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.role == 'user' %}
+                            <div class="message user-message">
+                                <div class="bubble">{{ message.content }}</div>
+                            </div>
+                        {% elif message.role == 'assistant' %}
+                            <div class="message assistant-message">
+                                <div class="bubble">{{ message.content }}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                 <!-- 当没有消息时，可以显示默认提示或保持为空 -->
+             {% endif %}
+            </div>
+        </div>
+
+
+        <!-- 提示语和输入框 -->
+        <form action="/" method="POST" class="input" id="question-form" enctype="multipart/form-data">
+            <input type="file" id="file-upload" name="file" style="display: none;">
+            <div id="file-name-display"></div>
+            <input type="text" id="question" name="question" placeholder="例如：恒生电子的IT人员有多少？" required>
+            <button type="button" id="upload-button"> <i class="fa fa-upload"></i></button>
+            <!-- 替换提交按钮为搜索符号变成“GO!”的效果 -->
+            <button type="submit" id="submit-button" class="search-button">
+                 <i class="fa fa-hand-o-right"></i>
+                 <i class="fa fa-search"></i>
+            </button>
+        </form>
+
+
+    </div>
+    <!-- 右侧图片容器 -->
+    <div class="side-image-container right-side">
+        <img src="{{ url_for('static', filename='right-image1.jpg') }}" alt="右侧图片1" class="side-image">
+        <img src="{{ url_for('static', filename='right-image2.jpg') }}" alt="右侧图片2" class="side-image">
+        <img src="{{ url_for('static', filename='right-image3.jpg') }}" alt="右侧图片3" class="side-image">
+    </div>
+</div>
+
+<script>
+// 清空按钮的点击事件
+    document.getElementById('clear-button').addEventListener('click', function() {
+        if (confirm('您确定要清空聊天记录吗？')) {
+            // 清空前端的聊天记录
+            const qaContainer = document.getElementById('qa-container');
+            qaContainer.innerHTML = '';
+
+            // 发送请求到后端，清空会话历史
+            fetch('/reset', {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('会话历史已清空');
+                } else {
+                    console.error('清空会话历史失败');
+                }
+            })
+            .catch(error => {
+                console.error('错误：', error);
+            });
+        }
+    });
+
+// 上传按钮的点击事件
+    document.getElementById('upload-button').addEventListener('click', function() {
+        document.getElementById('file-upload').click();
+    });
+
+// 当用户选择文件后，处理文件
+    document.getElementById('file-upload').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            // 检查文件类型
+            const allowedTypes = ['text/plain', 'application/pdf', 'image/png', 'image/jpeg', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('不支持的文件类型！');
+                this.value = '';
+                document.getElementById('file-name-display').textContent = '';
+                return;
+            }
+
+            // 检查文件大小，限制为 5MB
+            if (file.size > 5 * 1024 * 1024) {
+                alert('文件大小不能超过 5MB！');
+                this.value = '';
+                document.getElementById('file-name-display').textContent = '';
+                return;
+            }
+
+            // 显示已选择的文件名
+            const fileNameDisplay = document.getElementById('file-name-display');
+            fileNameDisplay.textContent = `已选择文件：${file.name}`;
+        }
+    });
+
+
+ // 提交表单的事件监听器
+    document.getElementById('question-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const question = document.getElementById('question').value;
+        const fileInput = document.getElementById('file-upload');
+        const file = fileInput.files[0];
+
+        // 调用统一的提交函数
+        handleQuestionSubmission(question, file);
+
+        // 清空输入框
+        document.getElementById('question').value = '';
+        // 清空文件输入和文件名显示
+        fileInput.value = '';
+        document.getElementById('file-name-display').textContent = '';
+    });
+
+    // 为预设问题按钮添加事件监听器
+    const presetButtons = document.querySelectorAll('.preset-question');
+    presetButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const question = this.getAttribute('data-question');
+            // 调用统一的提交函数，文件为 null
+            handleQuestionSubmission(question, null);
+        });
+    });
+
+    // 统一处理问题提交的函数
+    function handleQuestionSubmission(question, file) {
+        // 禁用提交按钮
+        const submitButton = document.getElementById('submit-button');
+        submitButton.disabled = true;
+
+        // 显示加载提示
+        const qaContainer = document.getElementById('qa-container');
+        const loadingMessageDiv = document.createElement('div');
+        loadingMessageDiv.classList.add('message', 'assistant-message');
+        const loadingBubbleDiv = document.createElement('div');
+        loadingBubbleDiv.classList.add('bubble');
+        loadingBubbleDiv.textContent = '正在获取答案，请稍候...';
+        loadingMessageDiv.appendChild(loadingBubbleDiv);
+        qaContainer.appendChild(loadingMessageDiv);
+
+        // 创建 FormData 对象
+        const formData = new FormData();
+        formData.append('question', question);
+
+        // 如果有文件，添加文件到 FormData
+        if (file) {
+            formData.append('file', file);
+        }
+
+        // 提交问题和文件
+        submitQuestion(formData, loadingMessageDiv);
+
+        // 在对话框中显示用户的问题
+        const userMessageDiv = document.createElement('div');
+        userMessageDiv.classList.add('message', 'user-message');
+
+        const userBubbleDiv = document.createElement('div');
+        userBubbleDiv.classList.add('bubble');
+        userBubbleDiv.textContent = question;
+
+        userMessageDiv.appendChild(userBubbleDiv);
+        qaContainer.appendChild(userMessageDiv);
+
+        // 滚动到底部
+        qaContainer.scrollTop = qaContainer.scrollHeight;
+    }
+
+    // 提交问题的函数，接受 FormData 对象和加载提示元素
+    function submitQuestion(formData, loadingMessageDiv) {
+        const qaContainer = document.getElementById('qa-container');
+
+        // 通过 fetch 提交问题和文件
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const answer = data.answer;
+
+            // 移除加载提示
+            qaContainer.removeChild(loadingMessageDiv);
+
+            // 创建助手消息元素
+            const assistantMessageDiv = document.createElement('div');
+            assistantMessageDiv.classList.add('message', 'assistant-message');
+
+            const assistantBubbleDiv = document.createElement('div');
+            assistantBubbleDiv.classList.add('bubble');
+            assistantBubbleDiv.textContent = answer;
+
+            assistantMessageDiv.appendChild(assistantBubbleDiv);
+            qaContainer.appendChild(assistantMessageDiv);
+
+            // 滚动到底部
+            qaContainer.scrollTop = qaContainer.scrollHeight;
+
+            // 重新启用提交按钮
+            document.getElementById('submit-button').disabled = false;
+        })
+        .catch(error => {
+            console.error('错误：', error);
+
+            // 移除加载提示
+            qaContainer.removeChild(loadingMessageDiv);
+
+            // 显示错误消息
+            const errorMessageDiv = document.createElement('div');
+            errorMessageDiv.classList.add('message', 'assistant-message');
+            const errorBubbleDiv = document.createElement('div');
+            errorBubbleDiv.classList.add('bubble');
+            errorBubbleDiv.textContent = '抱歉，发生了错误，请稍后再试。';
+            errorMessageDiv.appendChild(errorBubbleDiv);
+            qaContainer.appendChild(errorMessageDiv);
+
+            // 重新启用提交按钮
+            document.getElementById('submit-button').disabled = false;
+        });
+    }
+
+
+</script>
+
+
+</body>
+</html>
+
